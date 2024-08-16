@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trello-clone</title>
+  <link rel="stylesheet" href="./scss/app.scss" />
+  <script src="./js/app.js" type="module"></script>
+</head>
+
+<body>
+  <div class="header">
+    <h1>Trello</h1>
+    <div class="clock">
+      <ul>
+        <li class="clock__digit" id="hours">00</li>
+        <li id="separator">:</li>
+        <li class="clock__digit" id="minutes">00</li>
+        <li id="separator">:</li>
+        <li class="clock__digit" id="seconds">00</li>
+      </ul>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row container__header column-gap-4">
+      <div class="col-md-4 h-100 bg-light rounded-top-3 container__column">
+        <div class="p-3">TODO</div>
+      </div>
+      <div class="col-md-4 h-100 bg-info rounded-top-3 container__column">
+        <div class="p-3">In progress</div>
+      </div>
+      <div class="col-md-4 h-100 bg-secondary rounded-top-3 container__column">
+        <div class="p-3">Completed</div>
+      </div>
+    </div>
+    <div class="row container__content column-gap-4">
+      <div class="col-md-4 h-100 overflow-auto border-top bg-light rounded-bottom-3 container__column">
+        <div class="p-3">
+
+        </div>
+      </div>
+      <div class="col-md-4 h-100 bg-info overflow-auto border-top rounded-bottom-3 container__column">
+        <div class="p-3">
+
+        </div>
+      </div>
+      <div class="col-md-4 h-100 overflow-auto border-top bg-secondary rounded-bottom-3 container__column">
+        <div class="p-3">
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+
+</html>
