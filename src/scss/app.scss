@@ -1,6 +1,7 @@
 // Vendors
 @import "bootstrap/scss/bootstrap";
 
+
 body {
   background-color: #f5f5f5;
 }
@@ -25,7 +26,7 @@ body {
   background-color: lightgray;
   border: solid 0.5px gray;
   border-radius: 15px;
-  padding-left: 10px;
+  padding: 0 10px;
 }
 
 .clock__digit {
@@ -73,25 +74,72 @@ body {
   };
 }
 
-.container {
+.board {
   height: 80vh;
   column-gap: 20px;
   max-width: 1420px;
 }
 
-.container__column::-webkit-scrollbar {
+.board__header {
+  height: 15%;
+}
+
+.board__column-header {
+  max-width: 32%;
+}
+
+.board__work-area {
+  height: 85%;
+}
+
+.board__column {
+  max-width: 32%;
+}
+
+.board__column::-webkit-scrollbar {
   display: none;
   // border-radius: 20px;
 }
 
-.container__header {
-  height: 15%;
+.todos {
+  background-color: burlywood;
 }
 
-.container__content {
-  height: 85%;
+.task {
+  border: solid 1px gray;
+  border-radius: 10px;
+
 }
 
-.container__column {
-  max-width: 32%;
+.task__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.task__select {
+  border-radius: 8px;
+  background-color: antiquewhite;
+  height: 30px;
+  width: 75%;
+}
+
+.task__footer {
+  margin-top: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.task__buttons {
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  gap: 10px;
+  width: 25%;
+}
+
+.task__button {
+  border-radius: 5px;
 }
