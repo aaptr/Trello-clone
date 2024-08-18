@@ -2,7 +2,7 @@ import { Modal } from 'bootstrap'
 
 import {
   addFormElement,
-  editFormElemet,
+  editFormElement,
   boardElement
 } from './declarations.js'
 
@@ -25,10 +25,11 @@ setInterval(clock, 1000)
 render(getDataFromLocalStorage())
 
 addFormElement.addEventListener('submit', hadleSubmitAddForm)
+editFormElement.addEventListener('submit', handleSubmitEditForm)
 boardElement.addEventListener('click', hadleClickEditButton)
 boardElement.addEventListener('change', handleChangeStatusSelect)
 boardElement.addEventListener('click', handleClickRemoveTask)
-editFormElemet.addEventListener('click', handleSubmitEditForm)
+
 
 
 

@@ -1,5 +1,5 @@
 const addFormElement = document.querySelector('#addForm')
-const editFormElemet = document.querySelector('#editForm')
+const editFormElement = document.querySelector('#editForm')
 const todosBoxElement = document.querySelector('#todos-box')
 const inProgresBoxElement = document.querySelector('#in-progress-box')
 const doneBoxElement = document.querySelector('#done-box')
@@ -11,7 +11,7 @@ const boardElement = document.querySelector('.board')
 
 export {
   addFormElement,
-  editFormElemet,
+  editFormElement,
   todosBoxElement,
   inProgresBoxElement,
   doneBoxElement,

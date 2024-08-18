@@ -1,6 +1,6 @@
 import {
   addFormElement,
-  editFormElemet
+  editFormElement
 } from './declarations.js'
 
 import {
@@ -28,7 +28,6 @@ function hadleSubmitAddForm({ target }) {
 function hadleClickEditButton({ target }) {
   if (target.dataset.role === 'edit') {
     const editModal = document.querySelector('#editModal')
-    const modalIdInput = editModal.querySelector('#formIdInput')
     const modalTitleInput = editModal.querySelector('#formTitleInput')
     const modalDescriptionTextArea = editModal.querySelector('#formDescriprionTextArea')
     const modalUserSelect = editModal.querySelector('#user-select')
@@ -39,7 +38,7 @@ function hadleClickEditButton({ target }) {
     let targetId = target.closest('.task').dataset.id
     let taskForEdit = taskList.find(item => item.id === targetId)
 
-    editFormElemet.setAttribute('data-id', targetId)
+    editFormElement.setAttribute('data-id', targetId)
     modalTitleInput.value = taskForEdit.title
     modalDescriptionTextArea.value = taskForEdit.description
     modalUserSelect.value = taskForEdit.executiveUser
@@ -50,10 +49,11 @@ function hadleClickEditButton({ target }) {
 function handleSubmitEditForm({ target }) {
   const formElement = target.closest('form')
   let taskList = getDataFromLocalStorage()
-  const formData = new FormData(formElement)
-  const id = editFormElemet.dataset.id
+
+  const id = editFormElement.dataset.id
   const taskForEdit = taskList.find(item => item.id === id)
 
+  const formData = new FormData(formElement)
   taskForEdit.title = formData.get('editTitle')
   taskForEdit.description = formData.get('editText')
   taskForEdit.executiveUser = formData.get('users')
