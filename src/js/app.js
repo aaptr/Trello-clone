@@ -15,7 +15,9 @@ import {
 import {
   hadleSubmitAddForm,
   hadleClickEditButton,
-  handleSubmitEditForm
+  handleSubmitEditForm,
+  handleChangeStatusSelect,
+  handleClickRemoveTask
 } from './handlers.js'
 
 
@@ -24,6 +26,8 @@ render(getDataFromLocalStorage())
 
 addFormElement.addEventListener('submit', hadleSubmitAddForm)
 boardElement.addEventListener('click', hadleClickEditButton)
+boardElement.addEventListener('change', handleChangeStatusSelect)
+boardElement.addEventListener('click', handleClickRemoveTask)
 editFormElemet.addEventListener('click', handleSubmitEditForm)
 
 

@@ -62,8 +62,37 @@ function handleSubmitEditForm({ target }) {
   setDataToLocalStorage(taskList)
 }
 
+function handleChangeStatusSelect({ target }) {
+  if (target.dataset.role === 'status-select') {
+    let taskList = getDataFromLocalStorage()
+    const taskElement = target.closest('.task')
+    const id = taskElement.dataset.id
+
+    const task = taskList.find((task) => task.id === id)
+    task.status = target.value
+
+    setDataToLocalStorage(taskList)
+    render(getDataFromLocalStorage())
+  }
+}
+
+function handleClickRemoveTask({ target }) {
+  if (target.dataset.role === 'removeTask') {
+    let taskList = getDataFromLocalStorage()
+    const taskElement = target.closest('.task')
+    const { id } = taskElement.dataset
+
+    taskList.splice(taskList.findIndex((task) => task.id === id), 1)
+
+    setDataToLocalStorage(taskList)
+    render(getDataFromLocalStorage())
+  }
+}
+
 export {
   hadleSubmitAddForm,
   hadleClickEditButton,
-  handleSubmitEditForm
+  handleSubmitEditForm,
+  handleChangeStatusSelect,
+  handleClickRemoveTask
 }
