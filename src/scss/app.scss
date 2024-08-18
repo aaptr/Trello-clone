@@ -108,7 +108,6 @@ body {
 .task {
   border: solid 1px gray;
   border-radius: 10px;
-
 }
 
 .task__header {
@@ -118,9 +117,9 @@ body {
 }
 
 .task__select {
-  border-radius: 8px;
+  border-radius: 10px;
   background-color: antiquewhite;
-  height: 30px;
+  height: 40px;
   width: 75%;
 }
 
@@ -141,5 +140,6 @@ body {
 }
 
 .task__button {
-  border-radius: 5px;
+  border-radius: 10px;
+  height: 40px;
 }

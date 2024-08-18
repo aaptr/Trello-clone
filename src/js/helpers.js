@@ -1,3 +1,14 @@
+import {
+  todosBoxElement,
+  inProgresBoxElement,
+  doneBoxElement,
+  todosCounterElement,
+  inProgressCounterElement,
+  doneCounterElement
+} from './declarations.js'
+
+import { buildTaskTemplate } from './templates.js'
+
 function clock() {
   const date = new Date()
   let seconds = (date.getSeconds() < 10) ? '0' + date.getSeconds() : date.getSeconds()
@@ -21,8 +32,33 @@ function getDataFromLocalStorage() {
 }
 
 function render(payload) {
+  let todoList = payload.filter(function (task) {
+    return task.status === 'todo'
+  })
+  let inProgressList = payload.filter(function (task) {
+    return task.status === 'in-progress'
+  })
+  let doneList = payload.filter(function (task) {
+    return task.status === 'done'
+  })
 
+  todosCounterElement.textContent = todoList.length
+  inProgressCounterElement.textContent = inProgressList.length
+  doneCounterElement.textContent = doneList.length
 
+  todosBoxElement.innerHTML = ''
+  inProgresBoxElement.innerHTML = ''
+  doneBoxElement.innerHTML = ''
+
+  todoList.forEach(element => {
+    todosBoxElement.insertAdjacentHTML('beforeend', buildTaskTemplate(element))
+  })
+  inProgressList.forEach(element => {
+    inProgresBoxElement.insertAdjacentHTML('beforeend', buildTaskTemplate(element))
+  })
+  doneList.forEach(element => {
+    doneBoxElement.insertAdjacentHTML('beforeend', buildTaskTemplate(element))
+  })
 }
 
 
