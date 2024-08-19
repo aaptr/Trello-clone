@@ -3,7 +3,9 @@ import { Modal } from 'bootstrap'
 import {
   addFormElement,
   editFormElement,
-  boardElement
+  boardElement,
+  confirmDeleteButtonElement,
+  deleteFormElement
 } from './declarations.js'
 
 import {
@@ -13,22 +15,26 @@ import {
 } from './helpers.js'
 
 import {
-  hadleSubmitAddForm,
-  hadleClickEditButton,
+  handleSubmitAddForm,
+  handleClickEditButton,
   handleSubmitEditForm,
   handleChangeStatusSelect,
-  handleClickRemoveTask
+  handleClickRemoveTask,
+  handleConfirmDelete,
+  handleClickRemoveAll
 } from './handlers.js'
 
 
 setInterval(clock, 1000)
 render(getDataFromLocalStorage())
 
-addFormElement.addEventListener('submit', hadleSubmitAddForm)
+addFormElement.addEventListener('submit', handleSubmitAddForm)
 editFormElement.addEventListener('submit', handleSubmitEditForm)
-boardElement.addEventListener('click', hadleClickEditButton)
+boardElement.addEventListener('click', handleClickEditButton)
 boardElement.addEventListener('change', handleChangeStatusSelect)
 boardElement.addEventListener('click', handleClickRemoveTask)
+deleteFormElement.addEventListener('submit', handleConfirmDelete)
+boardElement.addEventListener('click', handleClickRemoveAll)
 
 
 

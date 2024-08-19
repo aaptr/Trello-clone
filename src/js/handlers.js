@@ -1,6 +1,8 @@
 import {
   addFormElement,
-  editFormElement
+  editFormElement,
+  deleteModalElement,
+  deleteFormElement
 } from './declarations.js'
 
 import {
@@ -12,7 +14,7 @@ import {
 import { Task } from './models.js'
 
 
-function hadleSubmitAddForm({ target }) {
+function handleSubmitAddForm({ target }) {
   let taskList = getDataFromLocalStorage()
   const formData = new FormData(target)
   const title = formData.get('addTitle')
@@ -25,7 +27,7 @@ function hadleSubmitAddForm({ target }) {
   addFormElement.reset()
 }
 
-function hadleClickEditButton({ target }) {
+function handleClickEditButton({ target }) {
   if (target.dataset.role === 'edit') {
     const editModal = document.querySelector('#editModal')
     const modalTitleInput = editModal.querySelector('#formTitleInput')
@@ -81,18 +83,46 @@ function handleClickRemoveTask({ target }) {
     let taskList = getDataFromLocalStorage()
     const taskElement = target.closest('.task')
     const { id } = taskElement.dataset
+    let taskForDelete = taskList.find(item => item.id === id)
 
-    taskList.splice(taskList.findIndex((task) => task.id === id), 1)
+    modalTitle = deleteModalElement.querySelector('#deleteModalTitle')
+    modalQuestion = deleteModalElement.querySelector('#deleteQuestion')
 
+    deleteFormElement.setAttribute('data-id', id)
+    deleteFormElement.setAttribute('data-role', 'del-one')
+    modalTitle.textContent = 'Delete task'
+    modalQuestion.textContent = `Are you sure you want to delete the task with title "${taskForDelete.title}"?`
+  }
+}
+
+function handleClickRemoveAll({ target }) {
+  if (target.dataset.role === 'deleteAllDone') {
+    modalTitle = deleteModalElement.querySelector('#deleteModalTitle')
+    modalQuestion = deleteModalElement.querySelector('#deleteQuestion')
+
+    modalTitle.textContent = 'Delete all done tasks'
+    modalQuestion.textContent = 'Are you sure you want to delete all done tasks?'
+    deleteFormElement.setAttribute('data-role', 'del-all')
+  }
+}
+
+function handleConfirmDelete() {
+  let taskList = getDataFromLocalStorage()
+  if (deleteFormElement.dataset.role === 'del-one') {
+    taskList.splice(taskList.findIndex((task) => task.id === deleteFormElement.dataset.id), 1)
     setDataToLocalStorage(taskList)
-    render(getDataFromLocalStorage())
+  } else if (deleteFormElement.dataset.role === 'del-all') {
+    const newList = taskList.filter(task => task.status !== 'done')
+    setDataToLocalStorage(newList)
   }
 }
 
 export {
-  hadleSubmitAddForm,
-  hadleClickEditButton,
+  handleSubmitAddForm,
+  handleClickEditButton,
   handleSubmitEditForm,
   handleChangeStatusSelect,
-  handleClickRemoveTask
+  handleClickRemoveTask,
+  handleConfirmDelete,
+  handleClickRemoveAll
 }
