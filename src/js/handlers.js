@@ -51,30 +51,45 @@ function handleClickEditButton({ target }) {
 function handleSubmitEditForm({ target }) {
   const formElement = target.closest('form')
   let taskList = getDataFromLocalStorage()
+  let inProgressList = taskList.filter(function (task) {
+    return task.status === 'in-progress'
+  })
 
   const id = editFormElement.dataset.id
   const taskForEdit = taskList.find(item => item.id === id)
-
   const formData = new FormData(formElement)
-  taskForEdit.title = formData.get('editTitle')
-  taskForEdit.description = formData.get('editText')
-  taskForEdit.executiveUser = formData.get('users')
-  taskForEdit.status = formData.get('status')
+  let taskStatus = formData.get('status')
 
-  setDataToLocalStorage(taskList)
+  if (inProgressList.length === 6 & taskStatus === 'in-progress') {
+    alert('You must first finish the tasks you started!')
+  } else {
+    taskForEdit.title = formData.get('editTitle')
+    taskForEdit.description = formData.get('editText')
+    taskForEdit.executiveUser = formData.get('users')
+    taskForEdit.status = taskStatus
+    setDataToLocalStorage(taskList)
+  }
 }
 
 function handleChangeStatusSelect({ target }) {
   if (target.dataset.role === 'status-select') {
     let taskList = getDataFromLocalStorage()
-    const taskElement = target.closest('.task')
-    const id = taskElement.dataset.id
+    let inProgressList = taskList.filter(function (task) {
+      return task.status === 'in-progress'
+    })
 
-    const task = taskList.find((task) => task.id === id)
-    task.status = target.value
+    if (inProgressList.length === 6 & target.value === 'in-progress') {
+      alert('You must first finish the tasks you started!')
+    } else {
+      const taskElement = target.closest('.task')
+      const id = taskElement.dataset.id
 
-    setDataToLocalStorage(taskList)
-    render(getDataFromLocalStorage())
+      const task = taskList.find((task) => task.id === id)
+      task.status = target.value
+
+      setDataToLocalStorage(taskList)
+      render(getDataFromLocalStorage())
+    }
   }
 }
 

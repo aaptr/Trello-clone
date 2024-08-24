@@ -4,7 +4,7 @@ const buildTaskTemplate = ({ id, title, createdAt, description, executiveUser, s
   const statusDone = (status === 'done') ? 'selected' : ''
 
   return `
-    <div class="task p-3" data-id="${id}">
+    <div class="task p-3 my-2" data-id="${id}">
             <div class="task__header">
               <h3>${title}</h3>
               <h5>${createdAt}</h5>
