@@ -1,3 +1,5 @@
+import { loadUsersList } from './helpers.js'
+
 const addFormElement = document.querySelector('#addForm')
 const editFormElement = document.querySelector('#editForm')
 const deleteFormElement = document.querySelector('#deleteForm')
@@ -9,7 +11,15 @@ const todosCounterElement = document.querySelector('#todosCounter')
 const inProgressCounterElement = document.querySelector('#inProgressCounter')
 const doneCounterElement = document.querySelector('#doneCounter')
 const boardElement = document.querySelector('.board')
+const addUserSelectElement = document.querySelector('#addUserSelect')
+const addButtonElement = document.querySelector('#addTaskButton')
 
+
+let usersList = []
+
+export function setUsersList(value) {
+  usersList = value
+}
 
 export {
   addFormElement,
@@ -22,5 +32,8 @@ export {
   inProgressCounterElement,
   doneCounterElement,
   boardElement,
-  deleteFormElement
+  deleteFormElement,
+  addUserSelectElement,
+  addButtonElement,
+  usersList
 }

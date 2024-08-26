@@ -2,7 +2,9 @@ import {
   addFormElement,
   editFormElement,
   deleteModalElement,
-  deleteFormElement
+  deleteFormElement,
+  addUserSelectElement,
+  usersList
 } from './declarations.js'
 
 import {
@@ -13,6 +15,11 @@ import {
 
 import { Task } from './models.js'
 
+import { userSelectTemplate } from './templates.js'
+
+function handleClickAddButtom() {
+  addUserSelectElement.innerHTML = userSelectTemplate(usersList)
+}
 
 function handleSubmitAddForm({ target }) {
   let taskList = getDataFromLocalStorage()
@@ -32,7 +39,7 @@ function handleClickEditButton({ target }) {
     const editModal = document.querySelector('#editModal')
     const modalTitleInput = editModal.querySelector('#formTitleInput')
     const modalDescriptionTextArea = editModal.querySelector('#formDescriprionTextArea')
-    const modalUserSelect = editModal.querySelector('#user-select')
+    const modalUserSelect = editModal.querySelector('#editUserSelect')
     const modalStatusSelect = editModal.querySelector('#status-select')
 
     let taskList = getDataFromLocalStorage()
@@ -43,7 +50,7 @@ function handleClickEditButton({ target }) {
     editFormElement.setAttribute('data-id', targetId)
     modalTitleInput.value = taskForEdit.title
     modalDescriptionTextArea.value = taskForEdit.description
-    modalUserSelect.value = taskForEdit.executiveUser
+    modalUserSelect.innerHTML = userSelectTemplate(usersList, taskForEdit.executiveUser)
     modalStatusSelect.value = taskForEdit.status
   }
 }
@@ -139,5 +146,6 @@ export {
   handleChangeStatusSelect,
   handleClickRemoveTask,
   handleConfirmDelete,
-  handleClickRemoveAll
+  handleClickRemoveAll,
+  handleClickAddButtom
 }

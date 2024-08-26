@@ -1,3 +1,5 @@
+import { usersList } from './declarations.js'
+
 const buildTaskTemplate = ({ id, title, createdAt, description, executiveUser, status }) => {
   const statusTodo = (status === 'todo') ? 'selected' : ''
   const statusInProgress = (status === 'in-progress') ? 'selected' : ''
@@ -10,7 +12,9 @@ const buildTaskTemplate = ({ id, title, createdAt, description, executiveUser, s
               <h5>${createdAt}</h5>
             </div>
             <p class="task__description">${description}</p>
-            <h4>Executive user:  ${executiveUser}</h4>
+            <select class="form-select user__select opacity-75" name="users" required>
+              ${userSelectTemplate(usersList, executiveUser)}
+            </select>
             <div class="task__footer d-flex">
               <select class="form-select task__select opacity-75" name="status" data-role="status-select">
                 <option value="todo" ${statusTodo}>ToDo</option>
@@ -36,6 +40,20 @@ const buildTaskTemplate = ({ id, title, createdAt, description, executiveUser, s
   `
 }
 
+const userSelectTemplate = ((usersList, executiveUser = '') => {
+  let content = (executiveUser === '')
+    ? '<option value="" selected>--Please select user--</option>\n'
+    : '<option value="">--Please select user--</option>\n'
+
+  usersList.forEach(user => {
+    content += `<option value="${user}" ${(executiveUser === user) ? 'selected' : ''}>${user}</option>\n`
+  });
+
+  return content
+})
+
+
 export {
-  buildTaskTemplate
+  buildTaskTemplate,
+  userSelectTemplate
 }

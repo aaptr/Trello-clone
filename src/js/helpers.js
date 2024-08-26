@@ -61,10 +61,15 @@ function render(payload) {
   })
 }
 
+async function loadUsersList(url) {
+  let data = await (await fetch(url)).json()
+  return data.map(x => x.name)
+}
 
 export {
   clock,
   setDataToLocalStorage,
   getDataFromLocalStorage,
-  render
+  render,
+  loadUsersList
 }

@@ -4,14 +4,17 @@ import {
   addFormElement,
   editFormElement,
   boardElement,
-  confirmDeleteButtonElement,
-  deleteFormElement
+  addButtonElement,
+  deleteFormElement,
+  setUsersList,
+  usersList
 } from './declarations.js'
 
 import {
   clock,
   render,
-  getDataFromLocalStorage
+  getDataFromLocalStorage,
+  loadUsersList
 } from './helpers.js'
 
 import {
@@ -21,13 +24,22 @@ import {
   handleChangeStatusSelect,
   handleClickRemoveTask,
   handleConfirmDelete,
-  handleClickRemoveAll
+  handleClickRemoveAll,
+  handleClickAddButtom
 } from './handlers.js'
 
+
+loadUsersList('https://jsonplaceholder.typicode.com/users')
+  .then(res => {
+    usersList = res
+    setUsersList(res)
+    render(getDataFromLocalStorage())
+  })
 
 setInterval(clock, 1000)
 render(getDataFromLocalStorage())
 
+addButtonElement.addEventListener('click', handleClickAddButtom)
 addFormElement.addEventListener('submit', handleSubmitAddForm)
 editFormElement.addEventListener('submit', handleSubmitEditForm)
 boardElement.addEventListener('click', handleClickEditButton)
@@ -39,6 +51,4 @@ boardElement.addEventListener('click', handleClickRemoveAll)
 
 
 
-// const instanceModal = new Modal('#exampleModal')
-// instanceModal.show()
 
