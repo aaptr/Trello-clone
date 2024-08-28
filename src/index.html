@@ -240,14 +240,15 @@
           <div class="mb-3">
             <p id="colorChooseDescription">Choose background color for column</p>
             <form id="colorForm">
-              <input type="color" name="myColor" class="form-control form-control-color" id="myColor"
-                title="Choose a color">
+              <input type="color" name="myColor" class="form-control form-control-color w-100" style="height: 200px;"
+                id="myColor" title="Choose your color">
             </form>
           </div>
         </div>
         <form class="modal-footer" id="colorForm">
-          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancel</button>
-          <button type="submit" form="colorForm" class="btn btn-danger">Submit</button>
+          <button type="button" class="btn btn-secondary" id="defaultColorButton">Set default</button>
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" form="colorForm" class="btn btn-primary">Submit</button>
         </form>
       </div>
     </div>

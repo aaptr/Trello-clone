@@ -13,6 +13,7 @@ const doneCounterElement = document.querySelector('#doneCounter')
 const boardElement = document.querySelector('.board')
 const addUserSelectElement = document.querySelector('#addUserSelect')
 const addButtonElement = document.querySelector('#addTaskButton')
+const setDefaultColorButtonElement = document.querySelector('#defaultColorButton')
 const colorFormElement = document.querySelector('#colorForm')
 let usersList = []
 
@@ -55,4 +56,5 @@ export {
   colorFormElement,
   defaultColors,
   currentColors,
+  setDefaultColorButtonElement
 }

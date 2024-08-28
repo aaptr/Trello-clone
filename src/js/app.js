@@ -1,14 +1,11 @@
 import { Modal } from 'bootstrap'
 
 import {
-  addFormElement,
   editFormElement,
   boardElement,
   addButtonElement,
-  deleteFormElement,
   setUsersList,
-  usersList,
-  colorFormElement
+  usersList
 } from './declarations.js'
 
 import {
@@ -20,16 +17,13 @@ import {
 } from './helpers.js'
 
 import {
-  handleSubmitAddForm,
   handleClickEditButton,
   handleSubmitEditForm,
   handleChangeStatusSelect,
   handleClickRemoveTask,
-  handleConfirmDelete,
   handleClickRemoveAll,
   handleClickAddButtom,
   handleClickChooseColorButton,
-  handleSubmitColorChooseForm
 } from './handlers.js'
 
 

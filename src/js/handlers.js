@@ -7,7 +7,8 @@ import {
   usersList,
   colorFormElement,
   defaultColors,
-  currentColors
+  currentColors,
+  setDefaultColorButtonElement
 } from './declarations.js'
 
 import {
@@ -163,6 +164,7 @@ function handleClickChooseColorButton({ target }) {
     modalColorInput.value = currentColors.find(item => item.column === targetColumnName).color
 
     colorFormElement.addEventListener('submit', handleSubmitColorChooseForm)
+    setDefaultColorButtonElement.addEventListener('click', handleClickSetDefaultColor)
   }
 }
 
@@ -175,6 +177,12 @@ function handleSubmitColorChooseForm({ target }) {
 
   setThemeColorsToLocalStorage(currentColors)
   colorFormElement.removeEventListener('submit', handleSubmitColorChooseForm)
+}
+
+function handleClickSetDefaultColor() {
+  const columnName = colorFormElement.dataset.column
+  const inputElement = colorFormElement.querySelector('#myColor')
+  inputElement.value = defaultColors.find(item => item.column === columnName).color
 }
 
 export {
