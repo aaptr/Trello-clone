@@ -143,16 +143,16 @@
           <form id="addForm">
             <div class="mb-3">
               <label for="formTitleInput" class="form-label">Title</label>
-              <input type="text" name="addTitle" class="form-control" id="formTitleInput" placeholder="Enter a title..."
-                required>
+              <input type="text" name="addTitle" class="form-control opacity-75" id="formTitleInput"
+                placeholder="Enter a title..." required>
             </div>
             <div class="mb-3">
               <label for="formDescriprionTextArea" class="form-label">Description</label>
-              <textarea name="addText" class="form-control" id="formDescriprionTextArea" rows="3"
+              <textarea name="addText" class="form-control opacity-75" id="formDescriprionTextArea" rows="3"
                 placeholder="Enter a description here..."></textarea>
             </div>
             <div class="mb-3 d-flex justify-content-between align-content-center gap-3">
-              <select class="form-select" name="users" id="addUserSelect" required>
+              <select class="form-select opacity-75" name="users" id="addUserSelect" required>
 
               </select>
               <select class="form-select" name="status" id="status-select" disabled>
@@ -182,18 +182,18 @@
           <form id="editForm">
             <div class="mb-3">
               <label for="formTitleInput" class="form-label">Title</label>
-              <input type="text" name="editTitle" class="form-control" id="formTitleInput" required>
+              <input type="text" name="editTitle" class="form-control opacity-75" id="formTitleInput" required>
             </div>
             <div class="mb-3">
               <label for="formDescriprionTextArea" class="form-label">Description</label>
-              <textarea name="editText" class="form-control" id="formDescriprionTextArea" rows="3"
+              <textarea name="editText" class="form-control opacity-75" id="formDescriprionTextArea" rows="3"
                 placeholder="Enter a description here..." required></textarea>
             </div>
             <div class="mb-3 d-flex justify-content-between align-content-center gap-3">
-              <select class="form-select" name="users" id="editUserSelect" required>
+              <select class="form-select opacity-75" name="users" id="editUserSelect" required>
 
               </select>
-              <select class="form-select" name="status" id="status-select">
+              <select class="form-select opacity-75" name="status" id="status-select">
                 <option value="todo">ToDo</option>
                 <option value="in-progress">In Progress</option>
                 <option value="done">Done</option>
@@ -222,8 +222,8 @@
           </div>
         </div>
         <form class="modal-footer" id="deleteForm">
-          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">No</button>
-          <button type="submit" class="btn btn-danger" id="modalDeleteButton">Yes</button>
+          <button type="button" class="btn btn-danger border" data-bs-dismiss="modal">No</button>
+          <button type="submit" class="btn btn-light border" id="modalDeleteButton">Yes</button>
         </form>
       </div>
     </div>
@@ -240,7 +240,7 @@
           <div class="mb-3">
             <p id="colorChooseDescription">Choose background color for column</p>
             <form id="colorForm">
-              <input type="color" name="myColor" class="form-control form-control-color" id="myColor" value="#CCCCCC"
+              <input type="color" name="myColor" class="form-control form-control-color" id="myColor"
                 title="Choose a color">
             </form>
           </div>

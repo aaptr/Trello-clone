@@ -24,6 +24,7 @@ import { userSelectTemplate } from './templates.js'
 
 function handleClickAddButtom() {
   addUserSelectElement.innerHTML = userSelectTemplate(usersList)
+  addFormElement.addEventListener('submit', handleSubmitAddForm)
 }
 
 function handleSubmitAddForm({ target }) {
@@ -37,6 +38,8 @@ function handleSubmitAddForm({ target }) {
   taskList.push(newTask)
   setDataToLocalStorage(taskList)
   addFormElement.reset()
+
+  addFormElement.removeEventListener('submit', handleSubmitAddForm)
 }
 
 function handleClickEditButton({ target }) {
@@ -119,6 +122,8 @@ function handleClickRemoveTask({ target }) {
     deleteFormElement.setAttribute('data-role', 'del-one')
     modalTitle.textContent = 'Delete task'
     modalQuestion.textContent = `Are you sure you want to delete the task with title "${taskForDelete.title}"?`
+
+    deleteFormElement.addEventListener('submit', handleConfirmDelete)
   }
 }
 
@@ -130,6 +135,8 @@ function handleClickRemoveAll({ target }) {
     modalTitle.textContent = 'Delete all done tasks'
     modalQuestion.textContent = 'Are you sure you want to delete all done tasks?'
     deleteFormElement.setAttribute('data-role', 'del-all')
+
+    deleteFormElement.addEventListener('submit', handleConfirmDelete)
   }
 }
 
@@ -142,6 +149,7 @@ function handleConfirmDelete() {
     const newList = taskList.filter(task => task.status !== 'done')
     setDataToLocalStorage(newList)
   }
+  deleteFormElement.removeEventListener('submit', handleConfirmDelete)
 }
 
 function handleClickChooseColorButton({ target }) {
@@ -153,50 +161,20 @@ function handleClickChooseColorButton({ target }) {
     colorFormElement.setAttribute('data-column', targetColumnName)
     modalDescriptionText.textContent = `Choose background color for column "${targetColumnName}"`
     modalColorInput.value = currentColors.find(item => item.column === targetColumnName).color
+
+    colorFormElement.addEventListener('submit', handleSubmitColorChooseForm)
   }
 }
 
 function handleSubmitColorChooseForm({ target }) {
   const formElement = target.closest('form')
-  // const todosColumnElement = document.querySelector('.todos')
-  // const inProgressColumnElement = document.querySelector('.in-progress')
-  // const doneColumnElement = document.querySelector('.done')
-  // let current = getDataFromLocalStorage()
-
   const columnName = formElement.dataset.column
-  // console.log(columnName)
-
-
   const themeToChange = currentColors.find(item => item.column === columnName)
   const formData = new FormData(formElement)
-  // newColor = formData.get('myColor')
   themeToChange.color = formData.get('myColor')
 
-  // const columnElement = document.querySelector(`.${columnName}`)
-  // console.log(themeToChange)
-
-
-  // columnElement.style.setProperty(`--${columnName}-color: ${newColor}`)
-
-  // if (columnName === 'todos') {
-  //   todosColumnElement.style.setProperty('--todos-color', newColor)
-  // } else if (columnName === 'in-progress') {
-  //   inProgressColumnElement.style.setProperty(`--in-progress-color: ${newColor}`)
-  // } else {
-  //   doneColumnElement.style.setProperty(`--done-color: ${newColor}`)
-  // }
-
   setThemeColorsToLocalStorage(currentColors)
-
-  // if (inProgressList.length === 6 & taskStatus === 'in-progress') {
-  //   alert('You must first finish the tasks you started!')
-  // } else {
-  //   taskForEdit.title = formData.get('editTitle')
-  //   taskForEdit.description = formData.get('editText')
-  //   taskForEdit.executiveUser = formData.get('users')
-  //   taskForEdit.status = taskStatus
-  //   setDataToLocalStorage(taskList)
-  // }
+  colorFormElement.removeEventListener('submit', handleSubmitColorChooseForm)
 }
 
 export {

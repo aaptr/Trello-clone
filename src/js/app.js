@@ -45,17 +45,9 @@ render(getDataFromLocalStorage())
 updateColors()
 
 addButtonElement.addEventListener('click', handleClickAddButtom)
-addFormElement.addEventListener('submit', handleSubmitAddForm)
 editFormElement.addEventListener('submit', handleSubmitEditForm)
 boardElement.addEventListener('click', handleClickEditButton)
 boardElement.addEventListener('change', handleChangeStatusSelect)
 boardElement.addEventListener('click', handleClickRemoveTask)
-deleteFormElement.addEventListener('submit', handleConfirmDelete)
 boardElement.addEventListener('click', handleClickRemoveAll)
 boardElement.addEventListener('click', handleClickChooseColorButton)
-colorFormElement.addEventListener('submit', handleSubmitColorChooseForm)
-
-
-
-
-
