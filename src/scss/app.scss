@@ -1,5 +1,6 @@
 // Vendors
-@import "bootstrap/scss/bootstrap";
+@import 'bootstrap/scss/bootstrap';
+@import './variables.scss';
 
 
 body {
@@ -29,50 +30,50 @@ body {
   padding: 0 10px;
 }
 
-.clock__digit {
+// .clock__digit {
   // background-color: lightgray;
   // border: solid 0.5px gray;
   // border-radius: 15px;
   // padding: 5px;
-}
+// }
 
-.clock ul {
-  margin: 0;
-  list-style: none;
-  padding: 0;
-}
-.clock ul li {
-  display: inline;
-}
-.clock ul li#separator {
-  -moz-animation: myfade 1s ease infinite;
-  -webkit-animation: myfade 1s ease infinite;
-}
+// .clock ul {
+//   margin: 0;
+//   list-style: none;
+//   padding: 0;
+// }
+// .clock ul li {
+//   display: inline;
+// }
+// .clock ul li#separator {
+//   -moz-animation: myfade 1s ease infinite;
+//   -webkit-animation: myfade 1s ease infinite;
+// }
 
-/* Animation */
-@-webkit-keyframes myfade {
-  0% {
-    opacity: 1.0;
-  }
-  50% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1.0;
-  }   
-}
+// /* Animation */
+// @-webkit-keyframes myfade {
+//   0% {
+//     opacity: 1.0;
+//   }
+//   50% {
+//     opacity: 0;
+//   }
+//   100% {
+//     opacity: 1.0;
+//   }   
+// }
 
-@-moz-keyframes myfade {
-  0% {
-    opacity: 1.0;
-  }
-  50% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1.0;
-  };
-}
+// @-moz-keyframes myfade {
+//   0% {
+//     opacity: 1.0;
+//   }
+//   50% {
+//     opacity: 0;
+//   }
+//   100% {
+//     opacity: 1.0;
+//   };
+// }
 
 .board {
   height: 80vh;
@@ -88,7 +89,7 @@ body {
   max-width: 32%;
 }
 
-.board__work-area {
+.board__columns {
   height: 85%;
 }
 
@@ -101,14 +102,22 @@ body {
   // border-radius: 20px;
 }
 
-.todos {
-  background-color: burlywood;
-}
+// .todos {
+//   background-color: $defaultTodoColor;
+// }
 
-.task {
-  border: solid 1px gray;
-  border-radius: 10px;
-}
+// .in-progress {
+//   background-color: $defaultInProgresColor;
+// }
+
+// .done {
+//   background-color: $defaultDoneColor;
+// }
+
+// .task {
+//   border: solid 1px gray;
+//   border-radius: 10px;
+// }
 
 .task__header {
   display: flex;
@@ -130,16 +139,22 @@ body {
   align-items: center;
 }
 
-.task__buttons {
-  padding: 0 20px;
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-  gap: 10px;
-  width: 25%;
+.delete-btn:hover {
+  // stroke: red;
+  // fill: red;
+  color: red;
 }
 
-.task__button {
-  border-radius: 10px;
-  height: 40px;
-}
+// .task__buttons {
+  // padding: 0 20px;
+  // display: flex;
+  // justify-content: space-evenly;
+  // align-items: center;
+  // gap: 10px;
+  // width: 25%;
+// }
+
+// .task__button {
+//   border-radius: 10px;
+//   height: 40px;
+// }

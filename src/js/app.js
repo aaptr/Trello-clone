@@ -7,14 +7,16 @@ import {
   addButtonElement,
   deleteFormElement,
   setUsersList,
-  usersList
+  usersList,
+  colorFormElement
 } from './declarations.js'
 
 import {
   clock,
   render,
   getDataFromLocalStorage,
-  loadUsersList
+  loadUsersList,
+  updateColors
 } from './helpers.js'
 
 import {
@@ -25,7 +27,9 @@ import {
   handleClickRemoveTask,
   handleConfirmDelete,
   handleClickRemoveAll,
-  handleClickAddButtom
+  handleClickAddButtom,
+  handleClickChooseColorButton,
+  handleSubmitColorChooseForm
 } from './handlers.js'
 
 
@@ -38,6 +42,7 @@ loadUsersList('https://jsonplaceholder.typicode.com/users')
 
 setInterval(clock, 1000)
 render(getDataFromLocalStorage())
+updateColors()
 
 addButtonElement.addEventListener('click', handleClickAddButtom)
 addFormElement.addEventListener('submit', handleSubmitAddForm)
@@ -47,6 +52,8 @@ boardElement.addEventListener('change', handleChangeStatusSelect)
 boardElement.addEventListener('click', handleClickRemoveTask)
 deleteFormElement.addEventListener('submit', handleConfirmDelete)
 boardElement.addEventListener('click', handleClickRemoveAll)
+boardElement.addEventListener('click', handleClickChooseColorButton)
+colorFormElement.addEventListener('submit', handleSubmitColorChooseForm)
 
 
 

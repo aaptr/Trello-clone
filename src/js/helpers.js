@@ -4,7 +4,9 @@ import {
   doneBoxElement,
   todosCounterElement,
   inProgressCounterElement,
-  doneCounterElement
+  doneCounterElement,
+  defaultColors,
+  currentColors
 } from './declarations.js'
 
 import { buildTaskTemplate } from './templates.js'
@@ -59,6 +61,8 @@ function render(payload) {
   doneList.forEach(element => {
     doneBoxElement.insertAdjacentHTML('beforeend', buildTaskTemplate(element))
   })
+  // console.log(payload)
+
 }
 
 async function loadUsersList(url) {
@@ -66,10 +70,40 @@ async function loadUsersList(url) {
   return data.map(x => x.name)
 }
 
+function getThemeColorsFromLocalStorage() {
+  const colors = localStorage.getItem('colors')
+  if (colors) {
+    return JSON.parse(colors)
+  } else {
+    return defaultColors
+  }
+}
+
+function setThemeColorsToLocalStorage(data) {
+  localStorage.setItem('colors', JSON.stringify(data))
+}
+
+function updateColors() {
+  const columns = ['todo', 'in-progress', 'done']
+
+  columns.forEach(column => {
+    const headerElement = document.querySelector(`.board__header-${column}`)
+    const columnElement = document.querySelector(`.board__column-${column}`)
+    const color = currentColors.find(item => item.column === column).color
+
+    headerElement.style.setProperty('background-color', color)
+    columnElement.style.setProperty('background-color', color)
+  })
+}
+
 export {
   clock,
   setDataToLocalStorage,
   getDataFromLocalStorage,
   render,
-  loadUsersList
+  loadUsersList,
+  getThemeColorsFromLocalStorage,
+  setThemeColorsToLocalStorage,
+  updateColors
 }
+

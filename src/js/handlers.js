@@ -4,13 +4,18 @@ import {
   deleteModalElement,
   deleteFormElement,
   addUserSelectElement,
-  usersList
+  usersList,
+  colorFormElement,
+  defaultColors,
+  currentColors
 } from './declarations.js'
 
 import {
   getDataFromLocalStorage,
   setDataToLocalStorage,
-  render
+  render,
+  getThemeColorsFromLocalStorage,
+  setThemeColorsToLocalStorage
 } from './helpers.js'
 
 import { Task } from './models.js'
@@ -139,6 +144,61 @@ function handleConfirmDelete() {
   }
 }
 
+function handleClickChooseColorButton({ target }) {
+  if (target.dataset.role === 'colorChoose') {
+    const colorChooseModal = document.querySelector('#colorThemeModal')
+    const modalDescriptionText = colorChooseModal.querySelector('#colorChooseDescription')
+    const modalColorInput = colorChooseModal.querySelector('#myColor')
+    let targetColumnName = target.closest('.board__column-header').dataset.column
+    colorFormElement.setAttribute('data-column', targetColumnName)
+    modalDescriptionText.textContent = `Choose background color for column "${targetColumnName}"`
+    modalColorInput.value = currentColors.find(item => item.column === targetColumnName).color
+  }
+}
+
+function handleSubmitColorChooseForm({ target }) {
+  const formElement = target.closest('form')
+  // const todosColumnElement = document.querySelector('.todos')
+  // const inProgressColumnElement = document.querySelector('.in-progress')
+  // const doneColumnElement = document.querySelector('.done')
+  // let current = getDataFromLocalStorage()
+
+  const columnName = formElement.dataset.column
+  // console.log(columnName)
+
+
+  const themeToChange = currentColors.find(item => item.column === columnName)
+  const formData = new FormData(formElement)
+  // newColor = formData.get('myColor')
+  themeToChange.color = formData.get('myColor')
+
+  // const columnElement = document.querySelector(`.${columnName}`)
+  // console.log(themeToChange)
+
+
+  // columnElement.style.setProperty(`--${columnName}-color: ${newColor}`)
+
+  // if (columnName === 'todos') {
+  //   todosColumnElement.style.setProperty('--todos-color', newColor)
+  // } else if (columnName === 'in-progress') {
+  //   inProgressColumnElement.style.setProperty(`--in-progress-color: ${newColor}`)
+  // } else {
+  //   doneColumnElement.style.setProperty(`--done-color: ${newColor}`)
+  // }
+
+  setThemeColorsToLocalStorage(currentColors)
+
+  // if (inProgressList.length === 6 & taskStatus === 'in-progress') {
+  //   alert('You must first finish the tasks you started!')
+  // } else {
+  //   taskForEdit.title = formData.get('editTitle')
+  //   taskForEdit.description = formData.get('editText')
+  //   taskForEdit.executiveUser = formData.get('users')
+  //   taskForEdit.status = taskStatus
+  //   setDataToLocalStorage(taskList)
+  // }
+}
+
 export {
   handleSubmitAddForm,
   handleClickEditButton,
@@ -147,5 +207,7 @@ export {
   handleClickRemoveTask,
   handleConfirmDelete,
   handleClickRemoveAll,
-  handleClickAddButtom
+  handleClickAddButtom,
+  handleClickChooseColorButton,
+  handleSubmitColorChooseForm
 }
