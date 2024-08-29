@@ -15,7 +15,6 @@ import {
   getDataFromLocalStorage,
   setDataToLocalStorage,
   render,
-  getThemeColorsFromLocalStorage,
   setThemeColorsToLocalStorage
 } from './helpers.js'
 
@@ -23,104 +22,102 @@ import { Task } from './models.js'
 
 import { userSelectTemplate } from './templates.js'
 
+
 function handleClickAddButtom() {
   addUserSelectElement.innerHTML = userSelectTemplate(usersList)
   addFormElement.addEventListener('submit', handleSubmitAddForm)
 }
 
 function handleSubmitAddForm({ target }) {
-  let taskList = getDataFromLocalStorage()
-  const formData = new FormData(target)
-  const title = formData.get('addTitle')
-  const description = formData.get('addText')
-  const executiveUser = formData.get('users')
-  const newTask = new Task(title, description, executiveUser)
+  const taskList = getDataFromLocalStorage()
+  const { addTitle: title, addText: description, users: executiveUser } = Object.fromEntries(new FormData(target))
 
-  taskList.push(newTask)
+  taskList.push(new Task(title, description, executiveUser))
   setDataToLocalStorage(taskList)
-  addFormElement.reset()
+  target.reset()
 
-  addFormElement.removeEventListener('submit', handleSubmitAddForm)
+  target.removeEventListener('submit', handleSubmitAddForm)
 }
 
 function handleClickEditButton({ target }) {
   if (target.dataset.role === 'edit') {
     const editModal = document.querySelector('#editModal')
-    const modalTitleInput = editModal.querySelector('#formTitleInput')
-    const modalDescriptionTextArea = editModal.querySelector('#formDescriprionTextArea')
-    const modalUserSelect = editModal.querySelector('#editUserSelect')
-    const modalStatusSelect = editModal.querySelector('#status-select')
+    const modalElements = {
+      titleInput: editModal.querySelector('#formTitleInput'),
+      descriptionTextArea: editModal.querySelector('#formDescriprionTextArea'),
+      userSelect: editModal.querySelector('#editUserSelect'),
+      statusSelect: editModal.querySelector('#status-select')
+    }
 
-    let taskList = getDataFromLocalStorage()
-
+    const taskList = getDataFromLocalStorage()
     let targetId = target.closest('.task').dataset.id
     let taskForEdit = taskList.find(item => item.id === targetId)
 
-    editFormElement.setAttribute('data-id', targetId)
-    modalTitleInput.value = taskForEdit.title
-    modalDescriptionTextArea.value = taskForEdit.description
-    modalUserSelect.innerHTML = userSelectTemplate(usersList, taskForEdit.executiveUser)
-    modalStatusSelect.value = taskForEdit.status
+    editFormElement.dataset.id = targetId
+    modalElements.titleInput.value = taskForEdit.title
+    modalElements.descriptionTextArea.value = taskForEdit.description
+    modalElements.userSelect.innerHTML = userSelectTemplate(usersList, taskForEdit.executiveUser)
+    modalElements.statusSelect.value = taskForEdit.status
+
+    editFormElement.addEventListener('submit', handleSubmitEditForm)
   }
 }
 
-function handleSubmitEditForm({ target }) {
-  const formElement = target.closest('form')
-  let taskList = getDataFromLocalStorage()
-  let inProgressList = taskList.filter(function (task) {
-    return task.status === 'in-progress'
-  })
-
-  const id = editFormElement.dataset.id
-  const taskForEdit = taskList.find(item => item.id === id)
+function handleSubmitEditForm(event) {
+  event.preventDefault()
+  const formElement = event.target.closest('form')
   const formData = new FormData(formElement)
-  let taskStatus = formData.get('status')
+  const taskList = getDataFromLocalStorage()
+  const inProgressList = taskList.filter(task => task.status === 'in-progress')
+  const taskId = editFormElement.dataset.id
+  const taskForEdit = taskList.find(item => item.id === taskId)
+  const taskStatus = formData.get('status')
 
-  if (inProgressList.length === 6 & taskStatus === 'in-progress') {
+  if (inProgressList.length === 6 && taskStatus === 'in-progress') {
     alert('You must first finish the tasks you started!')
   } else {
-    taskForEdit.title = formData.get('editTitle')
-    taskForEdit.description = formData.get('editText')
-    taskForEdit.executiveUser = formData.get('users')
-    taskForEdit.status = taskStatus
+    Object.assign(taskForEdit, {
+      title: formData.get('editTitle'),
+      description: formData.get('editText'),
+      executiveUser: formData.get('users'),
+      status: taskStatus
+    })
     setDataToLocalStorage(taskList)
   }
+
+  editFormElement.removeEventListener('submit', handleSubmitEditForm)
 }
 
 function handleChangeStatusSelect({ target }) {
-  if (target.dataset.role === 'status-select') {
-    let taskList = getDataFromLocalStorage()
-    let inProgressList = taskList.filter(function (task) {
-      return task.status === 'in-progress'
-    })
+  if (target.dataset.role !== 'status-select') return
 
-    if (inProgressList.length === 6 & target.value === 'in-progress') {
-      alert('You must first finish the tasks you started!')
-    } else {
-      const taskElement = target.closest('.task')
-      const id = taskElement.dataset.id
+  const taskList = getDataFromLocalStorage()
+  const inProgressList = taskList.filter(task => task.status === 'in-progress')
 
-      const task = taskList.find((task) => task.id === id)
-      task.status = target.value
-
-      setDataToLocalStorage(taskList)
-      render(getDataFromLocalStorage())
-    }
+  if (inProgressList.length === 6 && target.value === 'in-progress') {
+    alert('You must first finish the tasks you started!')
+    return
   }
+
+  const taskId = target.closest('.task').dataset.id
+  const task = taskList.find(task => task.id === taskId)
+  task.status = target.value
+
+  setDataToLocalStorage(taskList)
+  render(getDataFromLocalStorage())
 }
 
 function handleClickRemoveTask({ target }) {
   if (target.dataset.role === 'removeTask') {
-    let taskList = getDataFromLocalStorage()
-    const taskElement = target.closest('.task')
-    const { id } = taskElement.dataset
-    let taskForDelete = taskList.find(item => item.id === id)
+    const taskList = getDataFromLocalStorage()
+    const taskId = target.closest('.task').dataset.id
+    const taskForDelete = taskList.find(item => item.id === taskId)
 
-    modalTitle = deleteModalElement.querySelector('#deleteModalTitle')
-    modalQuestion = deleteModalElement.querySelector('#deleteQuestion')
+    const modalTitle = deleteModalElement.querySelector('#deleteModalTitle')
+    const modalQuestion = deleteModalElement.querySelector('#deleteQuestion')
 
-    deleteFormElement.setAttribute('data-id', id)
-    deleteFormElement.setAttribute('data-role', 'del-one')
+    deleteFormElement.dataset.id = taskId
+    deleteFormElement.dataset.role = 'del-one'
     modalTitle.textContent = 'Delete task'
     modalQuestion.textContent = `Are you sure you want to delete the task with title "${taskForDelete.title}"?`
 
@@ -129,58 +126,65 @@ function handleClickRemoveTask({ target }) {
 }
 
 function handleClickRemoveAll({ target }) {
-  if (target.dataset.role === 'deleteAllDone') {
-    modalTitle = deleteModalElement.querySelector('#deleteModalTitle')
-    modalQuestion = deleteModalElement.querySelector('#deleteQuestion')
+  if (target.dataset.role !== 'deleteAllDone') return
 
-    modalTitle.textContent = 'Delete all done tasks'
-    modalQuestion.textContent = 'Are you sure you want to delete all done tasks?'
-    deleteFormElement.setAttribute('data-role', 'del-all')
+  const modalTitle = deleteModalElement.querySelector('#deleteModalTitle')
+  const modalQuestion = deleteModalElement.querySelector('#deleteQuestion')
 
-    deleteFormElement.addEventListener('submit', handleConfirmDelete)
-  }
+  modalTitle.textContent = 'Delete all done tasks'
+  modalQuestion.textContent = 'Are you sure you want to delete all done tasks?'
+  deleteFormElement.dataset.role = 'del-all'
+
+  deleteFormElement.addEventListener('submit', handleConfirmDelete)
 }
 
 function handleConfirmDelete() {
-  let taskList = getDataFromLocalStorage()
-  if (deleteFormElement.dataset.role === 'del-one') {
-    taskList.splice(taskList.findIndex((task) => task.id === deleteFormElement.dataset.id), 1)
-    setDataToLocalStorage(taskList)
-  } else if (deleteFormElement.dataset.role === 'del-all') {
-    const newList = taskList.filter(task => task.status !== 'done')
-    setDataToLocalStorage(newList)
+  const taskList = getDataFromLocalStorage()
+  const { role, taskId } = deleteFormElement.dataset
+
+  if (role === 'del-one') {
+    const index = taskList.findIndex(task => task.id === taskId)
+    if (index !== -1) {
+      taskList.splice(index, 1)
+    }
+  } else if (role === 'del-all') {
+    taskList = taskList.filter(task => task.status !== 'done')
   }
+
+  setDataToLocalStorage(newList)
   deleteFormElement.removeEventListener('submit', handleConfirmDelete)
 }
 
 function handleClickChooseColorButton({ target }) {
-  if (target.dataset.role === 'colorChoose') {
-    const colorChooseModal = document.querySelector('#colorThemeModal')
-    const modalDescriptionText = colorChooseModal.querySelector('#colorChooseDescription')
-    const modalColorInput = colorChooseModal.querySelector('#myColor')
-    let targetColumnName = target.closest('.board__column-header').dataset.column
-    colorFormElement.setAttribute('data-column', targetColumnName)
-    modalDescriptionText.textContent = `Choose background color for column "${targetColumnName}"`
-    modalColorInput.value = currentColors.find(item => item.column === targetColumnName).color
+  if (target.dataset.role !== 'colorChoose') return
 
-    colorFormElement.addEventListener('submit', handleSubmitColorChooseForm)
-    setDefaultColorButtonElement.addEventListener('click', handleClickSetDefaultColor)
-  }
+  const colorChooseModal = document.querySelector('#colorThemeModal')
+  const modalDescriptionText = colorChooseModal.querySelector('#colorChooseDescription')
+  const modalColorInput = colorChooseModal.querySelector('#myColor')
+  const targetColumnName = target.closest('.board__column-header').dataset.column
+
+  colorFormElement.setAttribute('data-column', targetColumnName)
+  modalDescriptionText.textContent = `Choose background color for column "${targetColumnName}"`
+  modalColorInput.value = currentColors.find(item => item.column === targetColumnName).color
+
+  colorFormElement.addEventListener('submit', handleSubmitColorChooseForm)
+  setDefaultColorButtonElement.addEventListener('click', handleClickSetDefaultColor)
 }
 
 function handleSubmitColorChooseForm({ target }) {
   const formElement = target.closest('form')
   const columnName = formElement.dataset.column
   const themeToChange = currentColors.find(item => item.column === columnName)
-  const formData = new FormData(formElement)
-  themeToChange.color = formData.get('myColor')
+  themeToChange.color = new FormData(formElement).get('myColor')
 
   setThemeColorsToLocalStorage(currentColors)
+
   colorFormElement.removeEventListener('submit', handleSubmitColorChooseForm)
+  setDefaultColorButtonElement.removeEventListener('click', handleClickSetDefaultColor)
 }
 
 function handleClickSetDefaultColor() {
-  const columnName = colorFormElement.dataset.column
+  const { columnName } = colorFormElement.dataset
   const inputElement = colorFormElement.querySelector('#myColor')
   inputElement.value = defaultColors.find(item => item.column === columnName).color
 }

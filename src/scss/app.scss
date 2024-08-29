@@ -4,11 +4,11 @@
 
 
 body {
-  background-color: #fdfdf7;
+  background-color: $mainbackground;
 }
 
 .modal-content {
-  background-color: #fdfdf7;
+  background-color: $mainbackground;
 }
 
 .header {
@@ -106,34 +106,11 @@ body {
   // border-radius: 20px;
 }
 
-// .todos {
-//   background-color: $defaultTodoColor;
-// }
-
-// .in-progress {
-//   background-color: $defaultInProgresColor;
-// }
-
-// .done {
-//   background-color: $defaultDoneColor;
-// }
-
-// .task {
-//   border: solid 1px gray;
-//   border-radius: 10px;
-// }
 
 .task__header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-
-.task__select {
-  border-radius: 10px;
-  // background-color: antiquewhite;
-  height: 40px;
-  width: 75%;
 }
 
 .task__footer {
@@ -144,12 +121,22 @@ body {
 }
 
 .delete-btn:hover {
-  // stroke: red;
-  // fill: red;
-  color: red;
-  box-shadow: inset 0 0 7px red;
-  // transform: scale(1.1);
+  color: $red;
+  box-shadow: inset 0 0 15px $red;
 }
+
+.regular-btn:hover {
+  color: $graphite;
+  box-shadow: inset 0 0 15px $graphite;
+}
+
+.form-select {
+  option {
+    background-color: $mainbackground;
+  }
+  // opacity: 50%;
+}
+
 
 // .task__buttons {
   // padding: 0 20px;
