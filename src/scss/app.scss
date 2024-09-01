@@ -5,119 +5,54 @@
 
 body {
   background-color: $mainbackground;
+  font-family: "Ubuntu", sans-serif;
+}
+
+.header {
+  background-color: $grey;
+}
+
+.clock_separator {
+  animation: myfade 1s ease infinite;
+}
+
+@keyframes myfade {
+  0% {
+    opacity: 1.0;
+  }
+  99% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1.0;
+  };
+}
+
+.board {
+  height: 83vh;
+
+  &__header{
+    height: 10%;
+  }
+  &__column-header{
+    max-width: 32%;
+  }
+  &__column-counter {
+    color: $blue;
+  }
+  &__columns {
+    height: 90%;
+  }
+  &__column {
+    max-width: 32%;
+  }
+  &__column::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .modal-content {
   background-color: $mainbackground;
-}
-
-.header {
-  margin: 15px;
-  max-width: 1420px;
-  width: 100%;
-  margin: 20px auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 20px 10px 20px 10px;
-  border: solid 1px #d9d9d9;
-  border-radius: 10px;
-}
-
-.clock {
-  font-size: 40px;
-  font-family: Verdana, Arial, Sans-serif;
-  text-align: center;
-  background-color: lightgray;
-  border: solid 0.5px gray;
-  border-radius: 15px;
-  padding: 0 10px;
-}
-
-// .clock__digit {
-  // background-color: lightgray;
-  // border: solid 0.5px gray;
-  // border-radius: 15px;
-  // padding: 5px;
-// }
-
-// .clock ul {
-//   margin: 0;
-//   list-style: none;
-//   padding: 0;
-// }
-// .clock ul li {
-//   display: inline;
-// }
-// .clock ul li#separator {
-//   -moz-animation: myfade 1s ease infinite;
-//   -webkit-animation: myfade 1s ease infinite;
-// }
-
-// /* Animation */
-// @-webkit-keyframes myfade {
-//   0% {
-//     opacity: 1.0;
-//   }
-//   50% {
-//     opacity: 0;
-//   }
-//   100% {
-//     opacity: 1.0;
-//   }   
-// }
-
-// @-moz-keyframes myfade {
-//   0% {
-//     opacity: 1.0;
-//   }
-//   50% {
-//     opacity: 0;
-//   }
-//   100% {
-//     opacity: 1.0;
-//   };
-// }
-
-.board {
-  height: 80vh;
-  column-gap: 20px;
-  max-width: 1420px;
-}
-
-.board__header {
-  height: 10%;
-}
-
-.board__column-header {
-  max-width: 32%;
-}
-
-.board__columns {
-  height: 90%;
-}
-
-.board__column {
-  max-width: 32%;
-}
-
-.board__column::-webkit-scrollbar {
-  display: none;
-  // border-radius: 20px;
-}
-
-
-.task__header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.task__footer {
-  margin-top: 5px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 }
 
 .delete-btn:hover {
@@ -134,20 +69,4 @@ body {
   option {
     background-color: $mainbackground;
   }
-  // opacity: 50%;
 }
-
-
-// .task__buttons {
-  // padding: 0 20px;
-  // display: flex;
-  // justify-content: space-evenly;
-  // align-items: center;
-  // gap: 10px;
-  // width: 25%;
-// }
-
-// .task__button {
-//   border-radius: 10px;
-//   height: 40px;
-// }

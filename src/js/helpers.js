@@ -13,12 +13,22 @@ import { buildTaskTemplate } from './templates.js'
 
 function clock() {
   const date = new Date()
-  let seconds = (date.getSeconds() < 10) ? '0' + date.getSeconds() : date.getSeconds()
-  let minutes = (date.getMinutes() < 10) ? '0' + date.getMinutes() : date.getMinutes()
-  let hours = (date.getHours() < 10) ? '0' + date.getHours() : date.getHours()
+  const seconds = (date.getSeconds() < 10) ? '0' + date.getSeconds() : date.getSeconds()
+  const minutes = (date.getMinutes() < 10) ? '0' + date.getMinutes() : date.getMinutes()
+  const hours = (date.getHours() < 10) ? '0' + date.getHours() : date.getHours()
 
-  document.getElementById("clock").innerHTML = hours + ':' + minutes + ':' + seconds
+  document.getElementById("clock").innerHTML = `
+    <p class="fs-1 fw-semibold m-2">
+    ${hours}<span class="clock_separator">:</span>${minutes}<span class="clock_separator">:</span>${seconds}
+    </p>
+  `
 }
+
+async function loadUsersList(url) {
+  const data = await (await fetch(url)).json()
+  return data.map(user => user.name)
+}
+
 
 function setDataToLocalStorage(data) {
   localStorage.setItem('tasks', JSON.stringify(data))
@@ -34,15 +44,9 @@ function getDataFromLocalStorage() {
 }
 
 function render(payload) {
-  let todoList = payload.filter(function (task) {
-    return task.status === 'todo'
-  })
-  let inProgressList = payload.filter(function (task) {
-    return task.status === 'in-progress'
-  })
-  let doneList = payload.filter(function (task) {
-    return task.status === 'done'
-  })
+  const todoList = payload.filter(task => task.status === 'todo')
+  const inProgressList = payload.filter(task => task.status === 'in-progress')
+  const doneList = payload.filter(task => task.status === 'done')
 
   todosCounterElement.textContent = todoList.length
   inProgressCounterElement.textContent = inProgressList.length
@@ -61,13 +65,6 @@ function render(payload) {
   doneList.forEach(element => {
     doneBoxElement.insertAdjacentHTML('beforeend', buildTaskTemplate(element))
   })
-  // console.log(payload)
-
-}
-
-async function loadUsersList(url) {
-  let data = await (await fetch(url)).json()
-  return data.map(x => x.name)
 }
 
 function getThemeColorsFromLocalStorage() {
@@ -98,10 +95,10 @@ function updateColors() {
 
 export {
   clock,
+  loadUsersList,
   setDataToLocalStorage,
   getDataFromLocalStorage,
   render,
-  loadUsersList,
   getThemeColorsFromLocalStorage,
   setThemeColorsToLocalStorage,
   updateColors

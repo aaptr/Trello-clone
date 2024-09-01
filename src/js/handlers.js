@@ -1,5 +1,4 @@
 import {
-  addFormElement,
   editFormElement,
   deleteModalElement,
   deleteFormElement,
@@ -8,7 +7,6 @@ import {
   colorFormElement,
   defaultColors,
   currentColors,
-  setDefaultColorButtonElement
 } from './declarations.js'
 
 import {
@@ -23,9 +21,9 @@ import { Task } from './classes.js'
 import { userSelectTemplate } from './templates.js'
 
 
+// Handlers for adding new tasks
 function handleClickAddButtom() {
   addUserSelectElement.innerHTML = userSelectTemplate(usersList)
-  addFormElement.addEventListener('submit', handleSubmitAddForm)
 }
 
 function handleSubmitAddForm({ target }) {
@@ -35,37 +33,33 @@ function handleSubmitAddForm({ target }) {
   taskList.push(new Task(title, description, executiveUser))
   setDataToLocalStorage(taskList)
   target.reset()
-
-  target.removeEventListener('submit', handleSubmitAddForm)
 }
 
+// Handlers for editing tasks
 function handleClickEditButton({ target }) {
   if (target.dataset.role === 'edit') {
     const editModal = document.querySelector('#editModal')
     const modalElements = {
-      titleInput: editModal.querySelector('#formTitleInput'),
-      descriptionTextArea: editModal.querySelector('#formDescriprionTextArea'),
+      titleInput: editModal.querySelector('#editTitleInput'),
+      descriptionTextArea: editModal.querySelector('#editDescriprionTextArea'),
       userSelect: editModal.querySelector('#editUserSelect'),
-      statusSelect: editModal.querySelector('#status-select')
+      statusSelect: editModal.querySelector('#editStatus-select')
     }
 
     const taskList = getDataFromLocalStorage()
-    let targetId = target.closest('.task').dataset.id
-    let taskForEdit = taskList.find(item => item.id === targetId)
+    const targetId = target.closest('.task').dataset.id
+    const taskForEdit = taskList.find(item => item.id === targetId)
 
     editFormElement.dataset.id = targetId
     modalElements.titleInput.value = taskForEdit.title
     modalElements.descriptionTextArea.value = taskForEdit.description
     modalElements.userSelect.innerHTML = userSelectTemplate(usersList, taskForEdit.executiveUser)
     modalElements.statusSelect.value = taskForEdit.status
-
-    editFormElement.addEventListener('submit', handleSubmitEditForm)
   }
 }
 
-function handleSubmitEditForm(event) {
-  event.preventDefault()
-  const formElement = event.target.closest('form')
+function handleSubmitEditForm({ target }) {
+  const formElement = target.closest('form')
   const formData = new FormData(formElement)
   const taskList = getDataFromLocalStorage()
   const inProgressList = taskList.filter(task => task.status === 'in-progress')
@@ -84,10 +78,9 @@ function handleSubmitEditForm(event) {
     })
     setDataToLocalStorage(taskList)
   }
-
-  editFormElement.removeEventListener('submit', handleSubmitEditForm)
 }
 
+// Handlers for change setlects
 function handleChangeStatusSelect({ target }) {
   if (target.dataset.role !== 'status-select') return
 
@@ -107,6 +100,19 @@ function handleChangeStatusSelect({ target }) {
   render(getDataFromLocalStorage())
 }
 
+function handleChangeUserSelect({ target }) {
+  if (target.dataset.role !== 'user-select') return
+
+  const taskList = getDataFromLocalStorage()
+  const taskId = target.closest('.task').dataset.id
+  const task = taskList.find(task => task.id === taskId)
+  task.executiveUser = target.value
+
+  setDataToLocalStorage(taskList)
+  render(getDataFromLocalStorage())
+}
+
+// Handlers for deleting tasks
 function handleClickRemoveTask({ target }) {
   if (target.dataset.role === 'removeTask') {
     const taskList = getDataFromLocalStorage()
@@ -119,9 +125,7 @@ function handleClickRemoveTask({ target }) {
     deleteFormElement.dataset.id = taskId
     deleteFormElement.dataset.role = 'del-one'
     modalTitle.textContent = 'Delete task'
-    modalQuestion.textContent = `Are you sure you want to delete the task with title "${taskForDelete.title}"?`
-
-    deleteFormElement.addEventListener('submit', handleConfirmDelete)
+    modalQuestion.innerHTML = `<p>Are you sure you want to delete the task with title <span class="fw-semibold">"${taskForDelete.title}"</span>?</p>`
   }
 }
 
@@ -134,8 +138,6 @@ function handleClickRemoveAll({ target }) {
   modalTitle.textContent = 'Delete all done tasks'
   modalQuestion.textContent = 'Are you sure you want to delete all done tasks?'
   deleteFormElement.dataset.role = 'del-all'
-
-  deleteFormElement.addEventListener('submit', handleConfirmDelete)
 }
 
 function handleConfirmDelete() {
@@ -152,9 +154,9 @@ function handleConfirmDelete() {
   }
 
   setDataToLocalStorage(newList)
-  deleteFormElement.removeEventListener('submit', handleConfirmDelete)
 }
 
+// Handlers for changing user theme colors
 function handleClickChooseColorButton({ target }) {
   if (target.dataset.role !== 'colorChoose') return
 
@@ -164,11 +166,8 @@ function handleClickChooseColorButton({ target }) {
   const targetColumnName = target.closest('.board__column-header').dataset.column
 
   colorFormElement.setAttribute('data-column', targetColumnName)
-  modalDescriptionText.textContent = `Choose background color for column "${targetColumnName}"`
+  modalDescriptionText.innerHTML = `<p>Choose background color for column <span class="fw-semibold">"${targetColumnName}"</span>.</p>`
   modalColorInput.value = currentColors.find(item => item.column === targetColumnName).color
-
-  colorFormElement.addEventListener('submit', handleSubmitColorChooseForm)
-  setDefaultColorButtonElement.addEventListener('click', handleClickSetDefaultColor)
 }
 
 function handleSubmitColorChooseForm({ target }) {
@@ -178,26 +177,25 @@ function handleSubmitColorChooseForm({ target }) {
   themeToChange.color = new FormData(formElement).get('myColor')
 
   setThemeColorsToLocalStorage(currentColors)
-
-  colorFormElement.removeEventListener('submit', handleSubmitColorChooseForm)
-  setDefaultColorButtonElement.removeEventListener('click', handleClickSetDefaultColor)
 }
 
 function handleClickSetDefaultColor() {
-  const { columnName } = colorFormElement.dataset
+  const columnName = colorFormElement.dataset.column
   const inputElement = colorFormElement.querySelector('#myColor')
   inputElement.value = defaultColors.find(item => item.column === columnName).color
 }
 
 export {
+  handleClickAddButtom,
   handleSubmitAddForm,
   handleClickEditButton,
   handleSubmitEditForm,
   handleChangeStatusSelect,
+  handleChangeUserSelect,
   handleClickRemoveTask,
-  handleConfirmDelete,
   handleClickRemoveAll,
-  handleClickAddButtom,
+  handleConfirmDelete,
   handleClickChooseColorButton,
-  handleSubmitColorChooseForm
+  handleSubmitColorChooseForm,
+  handleClickSetDefaultColor
 }

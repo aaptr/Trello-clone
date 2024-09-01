@@ -5,53 +5,46 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Trello-clone</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="./scss/app.scss" />
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="./js/app.js" type="module"></script>
-  <style>
-    /* :root {
-      --todos-color: #f9efa1;
-      --in-progress-color: #abcdef;
-      --done-color: #80aa80;
-    }
-
-    .todos {
-      background-color: var(--todos-color);
-    }
-
-    .in-progress {
-      background-color: var(--in-progress-color);
-    }
-
-    .done {
-      background-color: var(--done-color);
-    } */
-  </style>
 </head>
 
 <body>
-  <div class="header px-3">
-    <h1>Trello</h1>
-    <div class="clock" id="clock">
+  <div
+    class="header container-xl mx-auto my-3 p-3 d-flex justify-content-between align-content-center border border-secondary rounded-3">
+    <h1 class="my-auto fs-1 fw-semibold">Trello</h1>
+    <div class="clock border border-secondary rounded-3 px-3" id="clock">
     </div>
   </div>
-  <div class="container board">
-    <div class="row board__header column-gap-4">
-      <div class="col-md-4 h-100 rounded-top-3 border border border-secondary board__column-header board__header-todo"
+  <div class="container-xl board">
+    <div class="board__header row column-gap-4">
+      <div class="board__column-header board__header-todo col-md-4 h-100 rounded-top-3 border border-secondary"
         data-column="todo">
-        <div class="p-3 d-flex justify-content-between align-content-center">
-          <div class="d-flex justify-content-between align-content-center gap-3">
-            <h2>ToDo</h2>
-            <button type="button" class="btn border-dark-subtle regular-btn" data-bs-toggle="modal"
-              data-bs-target="#colorThemeModal" id="chooseColorButton" data-role="colorChoose">
+        <div class="board__column-header-content px-1 py-3 d-flex justify-content-between align-content-center">
+          <div class="board__column-title d-flex justify-content-center gap-3">
+            <h3 class="board__column-title">ToDo:</h3>
+            <h3 id="todosCounter" class="board__column-counter">0</h3>
+          </div>
+          <div class="board__header-buttons d-flex justify-content-between gap-2">
+            <button type="button" id="chooseColorButton"
+              class="btn btn-sm border-secondary d-flex justify-content-center align-items-center gap-2 rounded-3 regular-btn"
+              data-bs-toggle="modal" data-bs-target="#colorThemeModal" data-role="colorChoose">
               <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
                 class="bi bi-paint-bucket pe-none" viewBox="0 0 16 16">
                 <path
                   d="M6.192 2.78c-.458-.677-.927-1.248-1.35-1.643a3 3 0 0 0-.71-.515c-.217-.104-.56-.205-.882-.02-.367.213-.427.63-.43.896-.003.304.064.664.173 1.044.196.687.556 1.528 1.035 2.402L.752 8.22c-.277.277-.269.656-.218.918.055.283.187.593.36.903.348.627.92 1.361 1.626 2.068.707.707 1.441 1.278 2.068 1.626.31.173.62.305.903.36.262.05.64.059.918-.218l5.615-5.615c.118.257.092.512.05.939-.03.292-.068.665-.073 1.176v.123h.003a1 1 0 0 0 1.993 0H14v-.057a1 1 0 0 0-.004-.117c-.055-1.25-.7-2.738-1.86-3.494a4 4 0 0 0-.211-.434c-.349-.626-.92-1.36-1.627-2.067S8.857 3.052 8.23 2.704c-.31-.172-.62-.304-.903-.36-.262-.05-.64-.058-.918.219zM4.16 1.867c.381.356.844.922 1.311 1.632l-.704.705c-.382-.727-.66-1.402-.813-1.938a3.3 3.3 0 0 1-.131-.673q.137.09.337.274m.394 3.965c.54.852 1.107 1.567 1.607 2.033a.5.5 0 1 0 .682-.732c-.453-.422-1.017-1.136-1.564-2.027l1.088-1.088q.081.181.183.365c.349.627.92 1.361 1.627 2.068.706.707 1.44 1.278 2.068 1.626q.183.103.365.183l-4.861 4.862-.068-.01c-.137-.027-.342-.104-.608-.252-.524-.292-1.186-.8-1.846-1.46s-1.168-1.32-1.46-1.846c-.147-.265-.225-.47-.251-.607l-.01-.068zm2.87-1.935a2.4 2.4 0 0 1-.241-.561c.135.033.324.11.562.241.524.292 1.186.8 1.846 1.46.45.45.83.901 1.118 1.31a3.5 3.5 0 0 0-1.066.091 11 11 0 0 1-.76-.694c-.66-.66-1.167-1.322-1.458-1.847z" />
               </svg>
+              <h6 class="board__header-button-text m-auto pe-none">Color</h6>
             </button>
-            <button type="button" class="btn border-dark-subtle regular-btn" data-bs-toggle="modal"
-              data-bs-target="#addModal" id="addTaskButton">
+            <button type="button" id="addTaskButton"
+              class="btn btn-sm border-secondary d-flex justify-content-center align-items-center gap-2 rounded-3 regular-btn"
+              data-bs-toggle="modal" data-bs-target="#addModal">
               <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
                 class="bi bi-file-earmark-plus pe-none" viewBox="0 0 16 16">
                 <path
@@ -59,72 +52,79 @@
                 <path
                   d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5z" />
               </svg>
+              <h6 class="board__header-button-text m-auto pe-none">Add</h6>
             </button>
           </div>
-          <h2 id="todosCounter">0</h2>
         </div>
       </div>
-      <div
-        class="col-md-4 h-100 rounded-top-3  border border border-secondary board__column-header board__header-in-progress"
+      <div class="board__column-header board__header-in-progress col-md-4 h-100 rounded-top-3 border border-secondary"
         data-column="in-progress">
-        <div class="p-3 d-flex justify-content-between">
-          <div class="d-flex justify-content-between align-content-center gap-3">
-            <h2>In progress</h2>
-            <button type="button" class="btn border-dark-subtle regular-btn" data-bs-toggle="modal"
-              data-bs-target="#colorThemeModal" id="chooseColorButton" data-role="colorChoose">
+        <div class="board__column-header-content px-1 py-3 d-flex justify-content-between">
+          <div class="board__column-title d-flex justify-content-center gap-3">
+            <h3 class="board__column-title-text">In progress:</h3>
+            <h3 id="inProgressCounter" class="board__column-counter">0</h3>
+          </div>
+          <div class="board__header-buttons d-flex justify-content-between gap-2">
+            <button type="button" id="chooseColorButton"
+              class="btn btn-sm border-secondary d-flex justify-content-center align-items-center gap-2 rounded-3 regular-btn"
+              data-bs-toggle="modal" data-bs-target="#colorThemeModal" data-role="colorChoose">
               <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
                 class="bi bi-paint-bucket pe-none" viewBox="0 0 16 16">
                 <path
                   d="M6.192 2.78c-.458-.677-.927-1.248-1.35-1.643a3 3 0 0 0-.71-.515c-.217-.104-.56-.205-.882-.02-.367.213-.427.63-.43.896-.003.304.064.664.173 1.044.196.687.556 1.528 1.035 2.402L.752 8.22c-.277.277-.269.656-.218.918.055.283.187.593.36.903.348.627.92 1.361 1.626 2.068.707.707 1.441 1.278 2.068 1.626.31.173.62.305.903.36.262.05.64.059.918-.218l5.615-5.615c.118.257.092.512.05.939-.03.292-.068.665-.073 1.176v.123h.003a1 1 0 0 0 1.993 0H14v-.057a1 1 0 0 0-.004-.117c-.055-1.25-.7-2.738-1.86-3.494a4 4 0 0 0-.211-.434c-.349-.626-.92-1.36-1.627-2.067S8.857 3.052 8.23 2.704c-.31-.172-.62-.304-.903-.36-.262-.05-.64-.058-.918.219zM4.16 1.867c.381.356.844.922 1.311 1.632l-.704.705c-.382-.727-.66-1.402-.813-1.938a3.3 3.3 0 0 1-.131-.673q.137.09.337.274m.394 3.965c.54.852 1.107 1.567 1.607 2.033a.5.5 0 1 0 .682-.732c-.453-.422-1.017-1.136-1.564-2.027l1.088-1.088q.081.181.183.365c.349.627.92 1.361 1.627 2.068.706.707 1.44 1.278 2.068 1.626q.183.103.365.183l-4.861 4.862-.068-.01c-.137-.027-.342-.104-.608-.252-.524-.292-1.186-.8-1.846-1.46s-1.168-1.32-1.46-1.846c-.147-.265-.225-.47-.251-.607l-.01-.068zm2.87-1.935a2.4 2.4 0 0 1-.241-.561c.135.033.324.11.562.241.524.292 1.186.8 1.846 1.46.45.45.83.901 1.118 1.31a3.5 3.5 0 0 0-1.066.091 11 11 0 0 1-.76-.694c-.66-.66-1.167-1.322-1.458-1.847z" />
               </svg>
+              <h6 class="board__header-button-text m-auto pe-none">Color</h6>
             </button>
-          </div>
-          <div>
-            <h2 id="inProgressCounter">0</h2>
           </div>
         </div>
       </div>
-      <div class="col-md-4 h-100 rounded-top-3 border border border-secondary board__column-header board__header-done"
+      <div class="board__column-header board__header-done col-md-4 h-100 rounded-top-3 border border-secondary"
         data-column="done">
-        <div class="p-3 d-flex justify-content-between">
-          <div class="d-flex justify-content-between align-content-center gap-3">
-            <h2>Done</h2>
-            <button type="button" class="btn border-dark-subtle regular-btn" data-bs-toggle="modal"
-              data-bs-target="#colorThemeModal" id="chooseColorButton" data-role="colorChoose">
+        <div class="board__column-header-content px-1 py-3 d-flex justify-content-between align-content-center">
+          <div class="board__column-title header_column_title d-flex justify-content-center gap-3">
+            <h3 class="board__column-title-text">Done:</h3>
+            <h3 id="doneCounter" class="board__column-counter">0</h3>
+          </div>
+          <div class="board__header-buttons d-flex justify-content-between gap-2">
+            <button type="button" id="chooseColorButton"
+              class="btn btn-sm border-secondary d-flex justify-content-center align-items-center gap-2 rounded-3 regular-btn"
+              data-bs-toggle="modal" data-bs-target="#colorThemeModal" data-role="colorChoose">
               <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
                 class="bi bi-paint-bucket pe-none" viewBox="0 0 16 16">
                 <path
                   d="M6.192 2.78c-.458-.677-.927-1.248-1.35-1.643a3 3 0 0 0-.71-.515c-.217-.104-.56-.205-.882-.02-.367.213-.427.63-.43.896-.003.304.064.664.173 1.044.196.687.556 1.528 1.035 2.402L.752 8.22c-.277.277-.269.656-.218.918.055.283.187.593.36.903.348.627.92 1.361 1.626 2.068.707.707 1.441 1.278 2.068 1.626.31.173.62.305.903.36.262.05.64.059.918-.218l5.615-5.615c.118.257.092.512.05.939-.03.292-.068.665-.073 1.176v.123h.003a1 1 0 0 0 1.993 0H14v-.057a1 1 0 0 0-.004-.117c-.055-1.25-.7-2.738-1.86-3.494a4 4 0 0 0-.211-.434c-.349-.626-.92-1.36-1.627-2.067S8.857 3.052 8.23 2.704c-.31-.172-.62-.304-.903-.36-.262-.05-.64-.058-.918.219zM4.16 1.867c.381.356.844.922 1.311 1.632l-.704.705c-.382-.727-.66-1.402-.813-1.938a3.3 3.3 0 0 1-.131-.673q.137.09.337.274m.394 3.965c.54.852 1.107 1.567 1.607 2.033a.5.5 0 1 0 .682-.732c-.453-.422-1.017-1.136-1.564-2.027l1.088-1.088q.081.181.183.365c.349.627.92 1.361 1.627 2.068.706.707 1.44 1.278 2.068 1.626q.183.103.365.183l-4.861 4.862-.068-.01c-.137-.027-.342-.104-.608-.252-.524-.292-1.186-.8-1.846-1.46s-1.168-1.32-1.46-1.846c-.147-.265-.225-.47-.251-.607l-.01-.068zm2.87-1.935a2.4 2.4 0 0 1-.241-.561c.135.033.324.11.562.241.524.292 1.186.8 1.846 1.46.45.45.83.901 1.118 1.31a3.5 3.5 0 0 0-1.066.091 11 11 0 0 1-.76-.694c-.66-.66-1.167-1.322-1.458-1.847z" />
               </svg>
+              <h6 class="board__header-button-text m-auto pe-none">Color</h6>
             </button>
-            <button type="button" class="btn border-dark-subtle delete-btn" data-bs-toggle="modal"
-              data-bs-target="#deleteModal" id="deleteAllDoneButton" data-role="deleteAllDone">
+            <button type="button" id="deleteAllDoneButton"
+              class="btn btn-sm border-secondary d-flex justify-content-center align-items-center gap-2 rounded-3 delete-btn"
+              data-bs-toggle="modal" data-bs-target="#deleteModal" data-role="deleteAllDone">
               <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
                 class="bi bi-trash3 pe-none" viewBox="0 0 16 16">
                 <path
                   d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5" />
               </svg>
+              <h6 class="board__header-button-text m-auto pe-none">Delete all</h6>
             </button>
           </div>
-          <h2 id="doneCounter">0</h2>
         </div>
       </div>
     </div>
     <div class="row board__columns column-gap-4">
       <div
-        class="col-md-4 h-100 overflow-auto border border-secondary border-top-0 rounded-bottom-3 board__column board__column-todo">
+        class="board__column board__column-todo col-md-4 h-100 overflow-auto border border-secondary border-top-0 rounded-bottom-3">
         <div class="p-1" id="todos-box">
 
         </div>
       </div>
       <div
-        class="col-md-4 h-100 overflow-auto border border-secondary border-top-0 rounded-bottom-3 board__column board__column-in-progress">
+        class="board__column board__column-in-progress col-md-4 h-100 overflow-auto border border-secondary border-top-0 rounded-bottom-3">
         <div class="p-1" id="in-progress-box">
 
         </div>
       </div>
       <div
-        class="col-md-4 h-100 overflow-auto border border-secondary border-top-0 rounded-bottom-3 board__column board__column-done">
+        class="board__column board__column-done col-md-4 h-100 overflow-auto border border-secondary border-top-0 rounded-bottom-3">
         <div class="p-1" id="done-box">
 
         </div>
@@ -142,20 +142,20 @@
         <div class="modal-body">
           <form id="addForm">
             <div class="mb-3">
-              <label for="formTitleInput" class="form-label">Title</label>
-              <input type="text" name="addTitle" class="form-control opacity-75" id="formTitleInput"
-                placeholder="Enter a title..." required>
+              <label for="addTitleInput" class="form-label">Title</label>
+              <input type="text" name="addTitle" class="form-control" id="addTitleInput" placeholder="Enter a title..."
+                required>
             </div>
             <div class="mb-3">
-              <label for="formDescriprionTextArea" class="form-label">Description</label>
-              <textarea name="addText" class="form-control opacity-75" id="formDescriprionTextArea" rows="3"
+              <label for="addDescriprionTextArea" class="form-label">Description</label>
+              <textarea name="addText" class="form-control" id="addDescriprionTextArea" rows="3"
                 placeholder="Enter a description here..."></textarea>
             </div>
             <div class="mb-3 d-flex justify-content-between align-content-center gap-3">
-              <select class="form-select opacity-75" name="users" id="addUserSelect" required>
+              <select class="form-select" name="users" id="addUserSelect" required>
 
               </select>
-              <select class="form-select" name="status" id="status-select" disabled>
+              <select class="form-select" name="status" id="addStatus-select" disabled>
                 <option value="todo" selected>ToDo</option>
                 <option value="in-progress">In Progress</option>
                 <option value="done">Done</option>
@@ -181,19 +181,19 @@
         <div class="modal-body">
           <form id="editForm">
             <div class="mb-3">
-              <label for="formTitleInput" class="form-label">Title</label>
-              <input type="text" name="editTitle" class="form-control opacity-75" id="formTitleInput" required>
+              <label for="editTitleInput" class="form-label">Title</label>
+              <input type="text" name="editTitle" class="form-control" id="editTitleInput" required>
             </div>
             <div class="mb-3">
-              <label for="formDescriprionTextArea" class="form-label">Description</label>
-              <textarea name="editText" class="form-control opacity-75" id="formDescriprionTextArea" rows="3"
+              <label for="editDescriprionTextArea" class="form-label">Description</label>
+              <textarea name="editText" class="form-control" id="editDescriprionTextArea" rows="3"
                 placeholder="Enter a description here..." required></textarea>
             </div>
             <div class="mb-3 d-flex justify-content-between align-content-center gap-3">
-              <select class="form-select opacity-75" name="users" id="editUserSelect" required>
+              <select class="form-select" name="users" id="editUserSelect" required>
 
               </select>
-              <select class="form-select opacity-75" name="status" id="status-select">
+              <select class="form-select" name="status" id="editStatus-select">
                 <option value="todo">ToDo</option>
                 <option value="in-progress">In Progress</option>
                 <option value="done">Done</option>
@@ -222,8 +222,8 @@
           </div>
         </div>
         <form class="modal-footer" id="deleteForm">
-          <button type="button" class="btn btn-danger border" data-bs-dismiss="modal">No</button>
-          <button type="submit" class="btn btn-light border" id="modalDeleteButton">Yes</button>
+          <button type="button" class="btn btn-secondary border" data-bs-dismiss="modal">No</button>
+          <button type="submit" class="btn btn-danger border" id="modalDeleteButton">Yes</button>
         </form>
       </div>
     </div>
