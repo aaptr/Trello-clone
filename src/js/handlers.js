@@ -18,7 +18,7 @@ import {
   setThemeColorsToLocalStorage
 } from './helpers.js'
 
-import { Task } from './models.js'
+import { Task } from './classes.js'
 
 import { userSelectTemplate } from './templates.js'
 
