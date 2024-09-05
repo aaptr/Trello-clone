@@ -69,15 +69,15 @@ function handleSubmitEditForm({ target }) {
 
   if (inProgressList.length === 6 && taskStatus === 'in-progress') {
     alert('You must first finish the tasks you started!')
-  } else {
-    Object.assign(taskForEdit, {
-      title: formData.get('editTitle'),
-      description: formData.get('editText'),
-      executiveUser: formData.get('users'),
-      status: taskStatus
-    })
-    setDataToLocalStorage(taskList)
+    return
   }
+  Object.assign(taskForEdit, {
+    title: formData.get('editTitle'),
+    description: formData.get('editText'),
+    executiveUser: formData.get('users'),
+    status: taskStatus
+  })
+  setDataToLocalStorage(taskList)
 }
 
 // Handlers for change setlects
