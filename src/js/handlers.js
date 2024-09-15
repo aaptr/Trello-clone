@@ -141,19 +141,17 @@ function handleClickRemoveAll({ target }) {
 }
 
 function handleConfirmDelete() {
-  const taskList = getDataFromLocalStorage()
+  let taskList = getDataFromLocalStorage()
   const { role, taskId } = deleteFormElement.dataset
 
   if (role === 'del-one') {
-    const index = taskList.findIndex(task => task.id === taskId)
-    if (index !== -1) {
-      taskList.splice(index, 1)
-    }
+    let index = taskList.findIndex(task => task.id === taskId)
+    taskList.splice(index, 1)
   } else if (role === 'del-all') {
     taskList = taskList.filter(task => task.status !== 'done')
   }
 
-  setDataToLocalStorage(newList)
+  setDataToLocalStorage(taskList)
 }
 
 // Handlers for changing user theme colors
